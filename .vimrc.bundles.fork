@@ -1,0 +1,13 @@
+
+
+
+
+
+Bundle 'git@github.com:jphustman/cf-utils.vim.git'
+Bundle 'jphustman/SQLUtilities'
+Bundle 'Align'
+Bundle 'dbext.vim'
+
+
+
+

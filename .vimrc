@@ -373,18 +373,18 @@
     " }
 
     " Tabularize {
-        nmap <Leader>a& :Tabularize /&<CR>
-        vmap <Leader>a& :Tabularize /&<CR>
-        nmap <Leader>a= :Tabularize /=<CR>
-        vmap <Leader>a= :Tabularize /=<CR>
-        nmap <Leader>a: :Tabularize /:<CR>
-        vmap <Leader>a: :Tabularize /:<CR>
-        nmap <Leader>a:: :Tabularize /:\zs<CR>
-        vmap <Leader>a:: :Tabularize /:\zs<CR>
-        nmap <Leader>a, :Tabularize /,<CR>
-        vmap <Leader>a, :Tabularize /,<CR>
-        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    "   nmap <Leader>a& :Tabularize /&<CR>
+    "   vmap <Leader>a& :Tabularize /&<CR>
+    "   nmap <Leader>a= :Tabularize /=<CR>
+    "   vmap <Leader>a= :Tabularize /=<CR>
+    "   nmap <Leader>a: :Tabularize /:<CR>
+    "   vmap <Leader>a: :Tabularize /:<CR>
+    "   nmap <Leader>a:: :Tabularize /:\zs<CR>
+    "   vmap <Leader>a:: :Tabularize /:\zs<CR>
+    "   nmap <Leader>a, :Tabularize /,<CR>
+    "   vmap <Leader>a, :Tabularize /,<CR>
+    "   nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    "   vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     " }
 
     " Session List {
@@ -421,7 +421,7 @@
     "}
 
     " TagBar {
-        nnoremap <silent> <leader>tt :TagbarToggle<CR>
+        nmap <F8> :TagbarToggle<CR>
 
         " If using go please install the gotags program using the following
         " go install github.com/jstemmer/gotags
