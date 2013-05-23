@@ -21,3 +21,4 @@ set colorcolumn=80
 
 " }
 
+noremap <F11> :set list!<CR>
