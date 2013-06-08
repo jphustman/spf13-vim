@@ -4,9 +4,9 @@
 
 
 Bundle 'git@github.com:jphustman/cf-utils.vim.git'
-Bundle 'jphustman/SQLUtilities'
-Bundle 'Align'
-Bundle 'dbext.vim'
+Bundle 'git@github.com:jphustman/SQLUtilities.git'
+Bundle 'JLimperg/Align'
+Bundle 'git@github.com:jphustman/dbext.vim.git'
 
 
 
