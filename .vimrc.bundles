@@ -128,7 +128,7 @@
                 source ~/.vim/bundle/vim-snippets/snippets/support_functions.vim
             endif
         elseif count(g:spf13_bundle_groups, 'neocomplcache')
-            Bundle 'Shougo/neocomplcache'
+            Bundle 'Shougo/neocomplete.vim'
             Bundle 'Shougo/neosnippet'
             Bundle 'honza/vim-snippets'
         endif
