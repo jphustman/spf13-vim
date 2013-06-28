@@ -19,6 +19,7 @@
 
     " Basics {
         set nocompatible        " Must be first line
+        set shell=/bin/sh
     " }
 
     " Windows Compatible {
@@ -95,6 +96,10 @@
     set history=1000                    " Store a ton of history (default is 20)
     set spell                           " Spell checking on
     set hidden                          " Allow buffer switching without saving
+
+    " Instead of reverting the cursor to the last position in the buffer, we
+    " set it to the first line when editing a git commit message
+    au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
     " Setting up the directories {
         set backup                  " Backups are nice ...
@@ -188,6 +193,8 @@
     autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
     autocmd FileType go autocmd BufWritePre <buffer> Fmt
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+    autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
+    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
 " }
 
@@ -411,13 +418,24 @@
             \ 'dir':  '\.git$\|\.hg$\|\.svn$',
             \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
-        let g:ctrlp_user_command = {
-            \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-            \ },
-            \ 'fallback': 'find %s -type f'
-        \ }
+        " On Windows use "dir" as fallback command.
+        if has('win32') || has('win64')
+            let g:ctrlp_user_command = {
+                \ 'types': {
+                    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+                \ },
+                \ 'fallback': 'dir %s /-n /b /s /a-d'
+            \ }
+        else
+            let g:ctrlp_user_command = {
+                \ 'types': {
+                    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+                \ },
+                \ 'fallback': 'find %s -type f'
+            \ }
+        endif
     "}
 
     " TagBar {
@@ -558,13 +576,18 @@
                     \ "\<Plug>(neosnippet_expand_or_jump)"
                     \: "\<TAB>"
 
-        " For snippet_complete marker.
-        if has('conceal')
-            set conceallevel=2 concealcursor=i
-        endif
+            " For snippet_complete marker.
+            if has('conceal')
+                set conceallevel=2 concealcursor=i
+            endif
 
         let g:neosnippet#enable_snipmate_compatibility = 1
         let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+
+        " Disable the neosnippet preview candidate window
+        " When enabled, there can be too much visual noise
+        " especially when splits are used.
+        set completeopt-=preview
     " }
 
     " UndoTree {
