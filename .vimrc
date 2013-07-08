@@ -559,8 +559,6 @@
         " For perlomni.vim setting.
         " https://github.com/c9s/perlomni.vim
         let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-    endif
-    " }
 
     " neosnippet {
         " Plugin key-mappings.
@@ -588,6 +586,8 @@
         " When enabled, there can be too much visual noise
         " especially when splits are used.
         set completeopt-=preview
+    " }
+    endif
     " }
 
     " UndoTree {
