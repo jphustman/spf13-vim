@@ -11,16 +11,17 @@ let g:indent_guides_enable_on_vim_startup = 0
 set guioptions+=T
 set guifont=Inconsolata\ Medium\ 10
 
-set columns=90
-set colorcolumn=80
+set columns=120
+set textwidth=80
+set colorcolumn=+1,+20
 
 
 " Formatting {
 
-    set shiftwidth=8                " Use indents of 4 spaces
-    set noexpandtab                   " Tabs are spaces, not tabs
-    set tabstop=8                   " An indentation every four columns
-    set softtabstop=8               " Let backspace delete indent
+    set shiftwidth=4                " Use indents of 4 spaces
+    "set noexpandtab                   " Tabs are spaces, not tabs
+    set tabstop=4                   " An indentation every four columns
+    set softtabstop=4               " Let backspace delete indent
 
 " }
 

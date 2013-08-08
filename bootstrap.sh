@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ############################  SETUP PARAMETERS
-app_name='spf13-vim (jphustmans)'
+app_name='spf13-vim-cfml'
 git_uri='https://github.com/jphustman/spf13-vim.git'
 git_branch='cfml'
 debug_mode='0'
