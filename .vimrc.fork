@@ -9,7 +9,7 @@ let g:syntastic_css_checkers=['csslint']
 let g:indent_guides_enable_on_vim_startup = 0
 
 set guioptions+=T
-set guifont=Inconsolata\ Medium\ 10
+" set guifont=Inconsolata\ Medium\ 10
 
 set columns=120
 set textwidth=80
