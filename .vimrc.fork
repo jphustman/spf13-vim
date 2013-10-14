@@ -12,7 +12,7 @@ set guioptions+=T
 " set guifont=Inconsolata\ Medium\ 10
 
 set columns=120
-set textwidth=80
+set textwidth=100
 set colorcolumn=+1,+20
 
 
