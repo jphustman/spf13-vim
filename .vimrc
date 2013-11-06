@@ -15,19 +15,10 @@
 "   You can find me at http://spf13.com
 " }
 
-" Before {
-
-    " Use local before if available {
-        if filereadable(expand("~/.vimrc.before.local"))
-            source ~/.vimrc.before.local
-        endif
-    " }
-
-    " Use fork before if available {
-        if filereadable(expand("~/.vimrc.before.fork"))
-            source ~/.vimrc.before.fork
-        endif
-    " }
+" Use before config {
+    if filereadable(expand("~/.vimrc.before"))
+        source ~/.vimrc.before
+    endif
 " }
 
 " Environment {
@@ -57,26 +48,10 @@
 
 " }
 
-" Bundles {
-
-    " Use local bundles if available {
-        if filereadable(expand("~/.vimrc.bundles.local"))
-            source ~/.vimrc.bundles.local
-        endif
-    " }
-
-    " Use fork bundles if available {
-        if filereadable(expand("~/.vimrc.bundles.fork"))
-            source ~/.vimrc.bundles.fork
-        endif
-    " }
-
-    " Use bundles config {
-        if filereadable(expand("~/.vimrc.bundles"))
-            source ~/.vimrc.bundles
-        endif
-    " }
-
+" Use bundles config {
+    if filereadable(expand("~/.vimrc.bundles"))
+        source ~/.vimrc.bundles
+    endif
 " }
 
 " General {
@@ -162,8 +137,8 @@
     if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
         let g:solarized_termcolors=256
         let g:solarized_termtrans=1
-        let g:solarized_contrast="high"
-        let g:solarized_visibility="high"
+        let g:solarized_contrast="normal"
+        let g:solarized_visibility="normal"
         color solarized             " Load a colorscheme
     endif
 
@@ -220,7 +195,7 @@
 
 " Formatting {
 
-    set nowrap                      " Wrap long lines
+    set nowrap                      " Do not wrap long lines
     set autoindent                  " Indent at the same level of the previous line
     set shiftwidth=4                " Use indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs
@@ -233,7 +208,10 @@
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
-    autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    " To disable the stripping of whitespace, add the following to your
+    " .vimrc.before.local file:
+    "   let g:spf13_keep_trailing_whitespace = 1
+    autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
     autocmd FileType go autocmd BufWritePre <buffer> Fmt
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
     autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
@@ -275,6 +253,13 @@
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
     noremap k gk
+
+    " Same for 0, home, end, etc
+    noremap $ g$
+    noremap <End> g<End>
+    noremap 0 g0
+    noremap <Home> g<Home>
+    noremap ^ g^
 
     " The following two lines conflict with moving to top and
     " bottom of the screen
@@ -451,18 +436,20 @@
     " }
 
     " Tabularize {
-    "   nmap <Leader>a& :Tabularize /&<CR>
-    "   vmap <Leader>a& :Tabularize /&<CR>
-    "   nmap <Leader>a= :Tabularize /=<CR>
-    "   vmap <Leader>a= :Tabularize /=<CR>
-    "   nmap <Leader>a: :Tabularize /:<CR>
-    "   vmap <Leader>a: :Tabularize /:<CR>
-    "   nmap <Leader>a:: :Tabularize /:\zs<CR>
-    "   vmap <Leader>a:: :Tabularize /:\zs<CR>
-    "   nmap <Leader>a, :Tabularize /,<CR>
-    "   vmap <Leader>a, :Tabularize /,<CR>
-    "   nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    "   vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        " nmap <Leader>a& :Tabularize /&<CR>
+        " vmap <Leader>a& :Tabularize /&<CR>
+        " nmap <Leader>a= :Tabularize /=<CR>
+        " vmap <Leader>a= :Tabularize /=<CR>
+        " nmap <Leader>a: :Tabularize /:<CR>
+        " vmap <Leader>a: :Tabularize /:<CR>
+        " nmap <Leader>a:: :Tabularize /:\zs<CR>
+        " vmap <Leader>a:: :Tabularize /:\zs<CR>
+        " nmap <Leader>a, :Tabularize /,<CR>
+        " vmap <Leader>a, :Tabularize /,<CR>
+        " nmap <Leader>a,, :Tabularize /,\zs<CR>
+        " vmap <Leader>a,, :Tabularize /,\zs<CR>
+        " nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        " vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     " }
 
     " Session List {
@@ -892,20 +879,15 @@
 
     " Strip whitespace {
     function! StripTrailingWhitespace()
-        " To disable the stripping of whitespace, add the following to your
-        " .vimrc.before.local file:
-        "   let g:spf13_keep_trailing_whitespace = 1
-        if !exists('g:spf13_keep_trailing_whitespace')
-            " Preparation: save last search, and cursor position.
-            let _s=@/
-            let l = line(".")
-            let c = col(".")
-            " do the business:
-            %s/\s\+$//e
-            " clean up: restore previous search history, and cursor position
-            let @/=_s
-            call cursor(l, c)
-        endif
+        " Preparation: save last search, and cursor position.
+        let _s=@/
+        let l = line(".")
+        let c = col(".")
+        " do the business:
+        %s/\s\+$//e
+        " clean up: restore previous search history, and cursor position
+        let @/=_s
+        call cursor(l, c)
     endfunction
     " }
 
